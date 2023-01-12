@@ -2,17 +2,36 @@ import React from 'react'
 import { useForm } from '../hooks/useForm'
 
 const initialForm = {
-    name:"",
-    email:"",
-    subject:"",
-    comments:"",
+  name: '',
+  email: '',
+  subject: '',
+  comments: '',
 }
 const validationsForm = (form) => {
-   let errors = {};
-   if(!form.name.trim()){
-    errors.name = "El campo nombre es requerido";
-   }
-   return errors;
+  let errors = {}
+  let regexName = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/
+  let regexEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/
+  let regexComments = /^.{1,255}$/
+  if (!form.name.trim()) {
+    errors.name = "El campo 'nombre' es requerido"
+  } else if (!regexName.test(form.name.trim())) {
+    errors.name = 'El campo nombre solo acepta letras y espacios en blanco'
+  }
+  if (!form.email.trim()) {
+    errors.email = "El campo 'email' es requerido"
+  } else if (!regexEmail.test(form.email.trim())) {
+    errors.email = 'El campo email es incorrecto'
+  }
+  if (!form.subject.trim()) {
+    errors.subject = "El campo 'subject' es requerido"
+  }
+  if (!form.comments.trim()) {
+    errors.comments = "El campo 'comments' es requerido"
+  } else if (!regexComments.test(form.comments.trim())) {
+    errors.name = 'El campo comments no debe exceder los 255 caracteres'
+  }
+
+  return errors
 }
 const ContactForm = () => {
   const {
@@ -30,9 +49,11 @@ const ContactForm = () => {
       <div className="card">
         <div className="card-body">
           <form onSubmit={handleSubmit}>
-          {errors.name && <div className="alert alert-danger" role="alert">{errors.name}</div>}     
+            {errors.name && (
+              <p className='text-danger'>{errors.name}</p>
+            )}
             <div className="input-group mb-3">
-             <input
+              <input
                 className="form-control"
                 type="text"
                 name="name"
@@ -43,7 +64,9 @@ const ContactForm = () => {
                 onBlur={handleBlur}
               />
             </div>
-            {errors.email && <div className="alert alert-danger" role="alert">{errors.email}</div>}   
+            {errors.email && (
+              <p className='text-danger'>{errors.email}</p>
+            )}
             <div className="input-group mb-3">
               <input
                 className="form-control"
@@ -56,7 +79,11 @@ const ContactForm = () => {
                 onBlur={handleBlur}
               />
             </div>
-            {errors.subject && <div className="alert alert-danger" role="alert">{errors.subject}</div>}   
+            {errors.subject && (
+              <p className='text-danger'>{errors.subject}</p>
+                
+             
+            )}
             <div className="input-group mb-3">
               <input
                 className="form-control"
@@ -69,7 +96,9 @@ const ContactForm = () => {
                 onBlur={handleBlur}
               />
             </div>
-            {errors.comments && <div className="alert alert-danger" role="alert">{errors.comments}</div>}   
+            {errors.comments && (
+              <p className='text-danger'>{errors.comments}</p>
+            )}
             <div className="input-group mb-3">
               <textarea
                 className="form-control"
@@ -84,7 +113,11 @@ const ContactForm = () => {
               ></textarea>
             </div>
 
-            <input className="form-control btn btn-secondary" type="submit" value="Enviar" />
+            <input
+              className="form-control btn btn-secondary"
+              type="submit"
+              value="Enviar"
+            />
           </form>
         </div>
       </div>
