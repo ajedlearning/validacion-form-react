@@ -51,7 +51,9 @@ const ContactForm = () => {
           <form onSubmit={handleSubmit}>
             {errors.name && (
               <p className='text-danger'>{errors.name}</p>
+              
             )}
+            {loading && <p className='text-success'>'Mensaje Enviado'</p>}
             <div className="input-group mb-3">
               <input
                 className="form-control"
