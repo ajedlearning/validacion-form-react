@@ -1,8 +1,19 @@
 import React from 'react'
 import { useForm } from '../hooks/useForm'
 
-const initialForm = {}
-const validationsForm = (form) => {}
+const initialForm = {
+    name:"",
+    email:"",
+    subject:"",
+    comments:"",
+}
+const validationsForm = (form) => {
+   let errors = {};
+   if(!form.name.trim()){
+    errors.name = "El campo nombre es requerido";
+   }
+   return errors;
+}
 const ContactForm = () => {
   const {
     form,
@@ -19,8 +30,9 @@ const ContactForm = () => {
       <div className="card">
         <div className="card-body">
           <form onSubmit={handleSubmit}>
+          {errors.name && <div className="alert alert-danger" role="alert">{errors.name}</div>}     
             <div className="input-group mb-3">
-              <input
+             <input
                 className="form-control"
                 type="text"
                 name="name"
@@ -31,6 +43,7 @@ const ContactForm = () => {
                 onBlur={handleBlur}
               />
             </div>
+            {errors.email && <div className="alert alert-danger" role="alert">{errors.email}</div>}   
             <div className="input-group mb-3">
               <input
                 className="form-control"
@@ -43,6 +56,7 @@ const ContactForm = () => {
                 onBlur={handleBlur}
               />
             </div>
+            {errors.subject && <div className="alert alert-danger" role="alert">{errors.subject}</div>}   
             <div className="input-group mb-3">
               <input
                 className="form-control"
@@ -55,6 +69,7 @@ const ContactForm = () => {
                 onBlur={handleBlur}
               />
             </div>
+            {errors.comments && <div className="alert alert-danger" role="alert">{errors.comments}</div>}   
             <div className="input-group mb-3">
               <textarea
                 className="form-control"

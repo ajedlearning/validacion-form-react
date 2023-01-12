@@ -1,25 +1,40 @@
-import { useState } from "react"
+import { useState } from 'react'
 
-//queda pendiente agregar la funcion validateForm en el useState de form
-export const useForm = (initialForm) => {
-    const [form, setForm] = useState(initialForm);
-    const [errors, setErrors] = useState({});
-    const [loading, setloading] = useState(false);
-    const [response, setResponse] = useState(null);
 
-    const handleChange=(e)=>{}
-    const handleBlur=(e)=>{}
-    const handleSubmit=(e)=>{}
+export const useForm = (initialForm, validateForm) => {
+  const [form, setForm] = useState(initialForm)
+  const [errors, setErrors] = useState({})
+  const [loading, setloading] = useState(false)
+  const [response, setResponse] = useState(null)
 
-    return {
-        form,
-        errors,
-        loading,
-        response,
-        handleChange,
-        handleBlur,
-        handleSubmit
-    }
+  const handleChange = (e) => {
+    //una forma de hacerlo para obtener los valores de los inputs
+    // setForm({
+    //   ...form,
+    //   [e.target.name]: e.target.value,
+    // })
+
+    //otra forma mas optimizada es usando destructuring
+    const { name, value } = e.target
+    setForm({
+      ...form,  
+      [name]: value,
+    })
+
+  }
+  const handleBlur = (e) => {
+    handleChange(e);
+    setErrors(validateForm(form));
+  }
+  const handleSubmit = (e) => {}
+
+  return {
+    form,
+    errors,
+    loading,
+    response,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+  }
 }
-
-  
